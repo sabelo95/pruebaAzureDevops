@@ -1,0 +1,13 @@
+package com.enyoi.university;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ProjectUniversityApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProjectUniversityApplication.class, args);
+	}
+
+}
