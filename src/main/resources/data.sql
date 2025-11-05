@@ -14,5 +14,3 @@ INSERT INTO cursos (nombre, duracion) VALUES
 ('Inglés Técnico', 30),
 ('Física Básica', 35),
 ('Historia Universal', 25);
-
-
