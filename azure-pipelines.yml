@@ -23,3 +23,26 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.17'  # Replace with your JDK version
     jdkArchitectureOption: 'x64'
+
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'build/libs'
+    Contents: |
+          *jar
+          !*plain.jar
+    TargetFolder: '$(Build.Repository.LocalPath)/deployment/app'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'artifact'
+    publishLocation: 'Container'
