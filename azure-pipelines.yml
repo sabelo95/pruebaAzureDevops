@@ -13,6 +13,26 @@ pool:
   - java
 
 steps:
+
+- task: SonarCloudPrepare@3
+  inputs:
+    SonarQube: 'ArkaSonarQube'
+    organization: 'enyoisantiagob'
+    scannerMode: 'cli'
+    configMode: 'manual'
+    cliProjectKey: 'EnyoiSantiagoB_ArkaSantiagoB'
+    cliProjectName: 'ArkaSantiagoB'
+    cliSources: '.'
+    extraProperties: |
+      sonar.projectKey=EnyoiSantiagoB_ArkaSantiagoB
+      sonar.projectName=$(Build.Repository.Name)
+      sonar.projectVersion=$(Build.BuildNumber)
+      sonar.sourceEncoding=UTF-8
+      sonar.language=java
+      sonar.java.source=17
+      sonar.java.target=17
+      sonar.java.binaries=./build/classes
+
 - task: Gradle@3
   inputs:
     gradleWrapperFile: 'gradlew'  # Path to your Gradle wrapper
@@ -23,6 +43,14 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.17'  # Replace with your JDK version
     jdkArchitectureOption: 'x64'
+
+- task: SonarCloudAnalyze@3
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarCloudPublish@3
+  inputs:
+    pollingTimeoutSec: '300'
 
 - task: CopyFiles@2
   inputs:
@@ -45,3 +73,5 @@ steps:
     PathtoPublish: '$(Build.Repository.LocalPath)/deployment/app'
     ArtifactName: 'artifact'
     publishLocation: 'Container'
+
+
